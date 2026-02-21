@@ -145,6 +145,12 @@ python backup.py
 python backup.py --db grafana-local grafana-prod
 ```
 
+## Maintainers
+
+| Name | GitHub |
+|------|--------|
+| Ashish Choubey | [@ashishkr96](https://github.com/ashishkr96) |
+
 ## Contributing
 
 Contributions are welcome. Please open an issue or submit a pull request.
