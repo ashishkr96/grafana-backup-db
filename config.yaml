@@ -1,0 +1,56 @@
+# Database Backup Configuration
+# ------------------------------
+# Supports SQLite and MySQL. Define as many databases as needed.
+# Use ${ENV_VAR} anywhere to pull values from environment variables.
+#
+# On-call quick start:
+#   cp config.yaml incident.yaml  →  fill credentials  →  python backup.py --config incident.yaml
+
+backup:
+  output_dir: ./backups   # where to write archives
+  compress: true          # false → keep raw directories
+  batch_size: 1000        # rows per DB fetch (lower for very wide tables)
+  filename_format: "%d-%m-%Y"             # date only  (e.g. 21-02-2026)
+  # filename_format: "%Y-%m-%d"           # ISO date   (e.g. 2026-02-21)
+  # filename_format: "%d-%m-%Y_%H-%M"    # with time  (e.g. 21-02-2026_14-37)
+  # filename_format: "%Y-%m-%d_%H-%M"    # ISO + time (e.g. 2026-02-21_14-37)
+
+databases:
+
+  # ── Grafana (SQLite — Docker default) ─────────────────────────────────────
+  - name: grafana-sqlite
+    type: sqlite
+    path: ~/grafana-data/grafana.db   # host-mounted Grafana data volume
+
+  # ── Grafana (MySQL) ────────────────────────────────────────────────────────
+  # - name: grafana-mysql
+  #   type: mysql
+  #   host: 127.0.0.1
+  #   port: 3306
+  #   user: grafana
+  #   password: ${GRAFANA_DB_PASS}
+  #   database: grafana
+
+  # ── Grafana Production (MySQL via VPN/tunnel) ──────────────────────────────
+  # - name: grafana-prod
+  #   type: mysql
+  #   host: ${GRAFANA_PROD_HOST}
+  #   port: 3306
+  #   user: ${GRAFANA_PROD_USER}
+  #   password: ${GRAFANA_PROD_PASS}
+  #   database: grafana
+
+  # ── Any other SQLite database ──────────────────────────────────────────────
+  # - name: myapp-sqlite
+  #   type: sqlite
+  #   path: /opt/myapp/data.db
+
+  # ── Any other MySQL database ───────────────────────────────────────────────
+  # - name: myapp-mysql
+  #   type: mysql
+  #   host: db.internal
+  #   port: 3306
+  #   user: backup_user
+  #   password: ${MYAPP_DB_PASS}
+  #   database: myapp
+  #   batch_size: 500     # per-DB override
