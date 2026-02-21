@@ -1,6 +1,9 @@
 # Backups
 backups/
 
+# Database files
+*.db
+
 # Environment
 .env
 
